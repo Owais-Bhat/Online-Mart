@@ -8,11 +8,10 @@ export default function AboutScreen() {
   return (
     <View>
       <Header />
-
       <View style={{ flex: 1, height: 1000 }}>
-        <Text>hello wellcome</Text>
+        <Text>hello</Text>
       </View>
-      <TabNavigator></TabNavigator>
+      <TabNavigator />
     </View>
   );
 }

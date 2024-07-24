@@ -3,7 +3,7 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import AboutScreen from "../screens/AboutScreen";
 import ContactUsScreen from "../screens/ContactUsScreen";
 import PrivacyPolicyScreen from "../screens/PrivacyPolicyScreen";
-import HomeScreen from "../screens/HomeScreen"; // HomeScreen ko Drawer mein add karna.
+import HomeScreen from "../screens/HomeScreen";
 
 const Drawer = createDrawerNavigator();
 
