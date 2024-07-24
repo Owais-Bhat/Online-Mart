@@ -3,7 +3,6 @@ import {
   View,
   Text,
   TextInput,
-  Button,
   ImageBackground,
   Image,
   Pressable,
@@ -36,14 +35,13 @@ const LoginScreen = ({ navigation }) => {
             style={globalStyles.image}
           ></Image>
         </View>
-
         <Formik
           initialValues={{ email: "", password: "" }}
           validationSchema={validationSchema}
           onSubmit={(values, { resetForm }) => {
             resetForm({ values: { email: "", password: "" } });
             console.log(values);
-            navigation.navigate("Home");
+            navigation.navigate("Main");
           }}
         >
           {({

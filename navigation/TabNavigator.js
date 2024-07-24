@@ -4,6 +4,7 @@ import HomeScreen from "../screens/HomeScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import CartScreen from "../screens/CartScreen";
 import Icon from "react-native-vector-icons/FontAwesome";
+
 const Tab = createBottomTabNavigator();
 
 const TabNavigator = () => {
@@ -12,34 +13,30 @@ const TabNavigator = () => {
       screenOptions={({ route }) => ({
         tabBarIcon: ({ color, size }) => {
           let iconName;
-
           if (route.name === "Home") {
-            iconName = "home";
+            (iconName = "home"), (title = "Home");
           } else if (route.name === "Profile") {
-            iconName = "user";
+            (iconName = "user"), (title = "Profile");
           } else if (route.name === "Cart") {
-            iconName = "shopping-cart";
+            (iconName = "shopping-cart"), (title = "Cart");
           }
-
-          return <Icon name={iconName} size={size} color={color} />;
+          return (
+            <Icon name={iconName} size={size} color={color} testID={title} />
+          );
         },
         headerShown: false,
       })}
       tabBarOptions={{
-        tabBarActiveTintColor: "tomato",
-        tabBarInactiveTintColor: "gray",
-        tabBarShowLabel: false,
-        tabBarStyle: [
-          {
-            display: "flex",
-            height: 60,
-          },
-          null,
-        ],
+        activeTintColor: "tomato",
+        inactiveTintColor: "gray",
+        showLabel: false,
+        style: {
+          height: 60,
+        },
       }}
     >
-      <Tab.Screen name="Profile" component={ProfileScreen} />
       <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="Profile" component={ProfileScreen} />
       <Tab.Screen name="Cart" component={CartScreen} />
     </Tab.Navigator>
   );

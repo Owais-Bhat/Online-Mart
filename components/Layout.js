@@ -1,9 +1,7 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
 import Header from "./Header";
-import TabNavigator from "../navigation/TabNavigator";
 import Footer from "./Footer";
-import { NavigationContainer } from "@react-navigation/native";
 
 const Layout = ({ children }) => {
   return (
@@ -15,6 +13,8 @@ const Layout = ({ children }) => {
   );
 };
 
+export default Layout;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -23,5 +23,3 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
-
-export default Layout;
