@@ -1,25 +1,19 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, ScrollView } from "react-native";
 import Header from "./Header";
 import Footer from "./Footer";
+import globalStyles from "../styles/globalStyles";
+
+
 
 const Layout = ({ children }) => {
   return (
-    <View style={styles.container}>
+    <View style={globalStyles.container}>
       <Header />
-      <View style={styles.content}>{children}</View>
+      <ScrollView style={globalStyles.content}>{children}</ScrollView>
       <Footer />
     </View>
   );
 };
 
 export default Layout;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  content: {
-    flex: 1,
-  },
-});

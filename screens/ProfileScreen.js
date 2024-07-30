@@ -7,11 +7,22 @@ import globalStyles from "../styles/globalStyles";
 export default function ProfileScreen() {
   return (
     <View>
-      <View style={globalStyles.container}>
-        <Image source={require("../assets/bg.png")} resizeMode="cover" />
+      <View style={styles.container}>
+        <Image source={require("../assets/profile.png")} style={styles.image} />
       </View>
     </View>
   );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  image: {
+    height: 200,
+    width: 200,
+    borderRadius: 40,
+  },
+});

@@ -7,9 +7,7 @@ import TabNavigator from "../navigation/TabNavigator";
 export default function AboutScreen() {
   return (
     <View>
-      <View style={{ flex: 1, height: 1000 }}>
-        <Text>hello</Text>
-      </View>
+      <Text>hello</Text>
     </View>
   );
 }

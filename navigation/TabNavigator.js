@@ -3,7 +3,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import HomeScreen from "../screens/HomeScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import CartScreen from "../screens/CartScreen";
-import Icon from "react-native-vector-icons/FontAwesome";
+import Icon from "react-native-vector-icons/FontAwesome5";
 
 const Tab = createBottomTabNavigator();
 
@@ -14,26 +14,22 @@ const TabNavigator = () => {
         tabBarIcon: ({ color, size }) => {
           let iconName;
           if (route.name === "Home") {
-            (iconName = "home"), (title = "Home");
+            iconName = "home";
           } else if (route.name === "Profile") {
-            (iconName = "user"), (title = "Profile");
+            iconName = "user";
           } else if (route.name === "Cart") {
-            (iconName = "shopping-cart"), (title = "Cart");
+            iconName = "shopping-cart";
           }
-          return (
-            <Icon name={iconName} size={size} color={color} testID={title} />
-          );
+          return <Icon name={iconName} size={size} color={color} />;
         },
         headerShown: false,
-      })}
-      tabBarOptions={{
-        activeTintColor: "tomato",
-        inactiveTintColor: "gray",
-        showLabel: false,
-        style: {
+        tabBarActiveTintColor: "tomato",
+        tabBarInactiveTintColor: "gray",
+        tabBarShowLabel: false,
+        tabBarStyle: {
           height: 60,
         },
-      }}
+      })}
     >
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
