@@ -12,7 +12,7 @@ import Footer from "../components/Footer";
 
 const ContactUsScreen = () => {
   const openWhatsApp = () => {
-    const url = "whatsapp://send?phone=YOUR_PHONE_NUMBER&text=Hello!";
+    const url = "whatsapp://send?phone=+919149437103&text=Hello!";
     Linking.openURL(url).catch(() => {
       alert("Make sure WhatsApp is installed on your device");
     });

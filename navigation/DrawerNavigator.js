@@ -11,8 +11,9 @@ import PrivacyPolicyScreen from "../screens/PrivacyPolicyScreen";
 import HomeScreen from "../screens/HomeScreen";
 import Layout from "../components/Layout";
 import ProfileScreen from "../screens/ProfileScreen";
-import WishlistScreen from "../screens/WishlistScreen";
 import { useNavigation } from "@react-navigation/native";
+import CartScreen from "../screens/CartScreen";
+import WishlistScreen from "../screens/WishlistScreen";
 
 const Drawer = createDrawerNavigator();
 
@@ -86,6 +87,8 @@ const DrawerNavigator = () => {
       <Drawer.Screen name="WishlistScreen">
         {() => <WishlistScreen />}
       </Drawer.Screen>
+
+      {/* <Drawer.Screen name="CartScreen">{() => <CartScreen />}</Drawer.Screen> */}
     </Drawer.Navigator>
   );
 };

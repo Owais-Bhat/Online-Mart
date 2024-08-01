@@ -14,18 +14,22 @@ const Footer = ({}) => {
 
   return (
     <View style={globalStyles.footer}>
-      <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
-        <User name="user" size={30} color={"#A1C398"} />
+      <TouchableOpacity
+        onPress={() =>
+          navigation.navigate("WishlistScreen", { product: <WishlistScreen /> })
+        }
+      >
+        <User name="heart" size={30} color={"gray"} />
       </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate("Home")}>
-        <Icon name="home" size={30} color={"#A1C398"} />
+        <Icon name="home" size={30} color={"gray"} />
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() =>
           navigation.navigate("CartScreen", { product: <CartScreen /> })
         }
       >
-        <Icon name="shopping-cart" size={30} color={"#A1C398"} />
+        <Icon name="shopping-cart" size={30} color={"gray"} />
       </TouchableOpacity>
     </View>
   );
