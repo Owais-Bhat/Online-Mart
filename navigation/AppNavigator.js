@@ -6,6 +6,8 @@ import { TextInput, View, StyleSheet } from "react-native";
 import ProductDetailsScreen from "../screens/ProductDetailsScreen";
 import Layout from "../components/Layout";
 import SearchScreen from "../screens/SearchScreen";
+import WishlistScreen from "../screens/WishlistScreen";
+import CartScreen from "../screens/CartScreen";
 
 const Stack = createStackNavigator();
 
@@ -15,7 +17,7 @@ const AppNavigator = () => {
       initialRouteName="Login"
       screenOptions={{ headerShown: false }}
     >
-      {/* <Stack.Screen name="Login" component={LoginScreen} /> */}
+      <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen
         name="Main"
         component={DrawerNavigator}
@@ -28,6 +30,8 @@ const AppNavigator = () => {
         component={ProductDetailsScreen}
       />
       <Stack.Screen name="Search" component={SearchScreen} />
+      <Stack.Screen name="WishlistScreen" component={WishlistScreen} />
+      <Stack.Screen name="CartScreen" component={CartScreen} />
     </Stack.Navigator>
   );
 };

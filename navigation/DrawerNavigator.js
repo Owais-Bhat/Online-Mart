@@ -1,20 +1,53 @@
 // navigation/DrawerNavigator.js
 import React from "react";
-import { createDrawerNavigator } from "@react-navigation/drawer";
+import { View, Text, Image, Pressable, StyleSheet } from "react-native";
+import {
+  createDrawerNavigator,
+  DrawerItemList,
+} from "@react-navigation/drawer";
 import AboutScreen from "../screens/AboutScreen";
 import ContactUsScreen from "../screens/ContactUsScreen";
 import PrivacyPolicyScreen from "../screens/PrivacyPolicyScreen";
 import HomeScreen from "../screens/HomeScreen";
 import Layout from "../components/Layout";
 import ProfileScreen from "../screens/ProfileScreen";
-import CartScreen from "../screens/CartScreen";
-import ProductDetailsScreen from "../screens/ProductDetailsScreen";
+import WishlistScreen from "../screens/WishlistScreen";
+import { useNavigation } from "@react-navigation/native";
 
 const Drawer = createDrawerNavigator();
 
+const CustomDrawerContent = (props) => {
+  const navigation = useNavigation();
+
+  return (
+    <View style={styles.drawerContent}>
+      {/* Logo */}
+      <View style={styles.logoContainer}>
+        <Image source={require("../assets/logo.png")} style={styles.logo} />
+      </View>
+
+      {/* Drawer Items */}
+      <View style={styles.drawerItems}>
+        <DrawerItemList {...props} />
+      </View>
+
+      {/* Login Button */}
+      <Pressable
+        style={styles.loginButton}
+        onPress={() => navigation.navigate("Login")}
+      >
+        <Text style={styles.loginButtonText}>Login</Text>
+      </Pressable>
+    </View>
+  );
+};
+
 const DrawerNavigator = () => {
   return (
-    <Drawer.Navigator screenOptions={{ headerShown: false }}>
+    <Drawer.Navigator
+      drawerContent={(props) => <CustomDrawerContent {...props} />}
+      screenOptions={{ headerShown: false }}
+    >
       <Drawer.Screen name="Home">
         {() => (
           <Layout>
@@ -50,18 +83,39 @@ const DrawerNavigator = () => {
           </Layout>
         )}
       </Drawer.Screen>
-      <Drawer.Screen name="Cart">
-        {() => (
-          <Layout>
-            <CartScreen />
-          </Layout>
-        )}
+      <Drawer.Screen name="WishlistScreen">
+        {() => <WishlistScreen />}
       </Drawer.Screen>
-      {/* <Drawer.Screen name="ProductDetailsScreen">
-        {() => <Layout>{<ProductDetailsScreen />}</Layout>}
-      </Drawer.Screen> */}
     </Drawer.Navigator>
   );
 };
+
+const styles = StyleSheet.create({
+  drawerContent: {
+    flex: 1,
+    paddingTop: 40,
+  },
+  logoContainer: {
+    alignItems: "center",
+    paddingVertical: 20,
+  },
+  logo: {
+    width: 150,
+    height: 150,
+  },
+  drawerItems: {
+    flex: 1,
+  },
+  loginButton: {
+    padding: 15,
+    backgroundColor: "#007bff",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  loginButtonText: {
+    color: "#fff",
+    fontSize: 16,
+  },
+});
 
 export default DrawerNavigator;

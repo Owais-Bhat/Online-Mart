@@ -12,28 +12,28 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 
-const CartScreen = () => {
-  const [cartItems, setCartItems] = useState([]);
+const WishlistScreen = () => {
+  const [wishlistItems, setWishlistItems] = useState([]);
 
   useEffect(() => {
-    const fetchCartItems = async () => {
+    const fetchWishlistItems = async () => {
       try {
-        const cart = await AsyncStorage.getItem("cart");
-        setCartItems(cart ? JSON.parse(cart) : []);
+        const wishlist = await AsyncStorage.getItem("wishlist");
+        setWishlistItems(wishlist ? JSON.parse(wishlist) : []);
       } catch (error) {
-        console.error("Failed to load cart items", error);
+        console.error("Failed to load wishlist items", error);
       }
     };
 
-    fetchCartItems();
+    fetchWishlistItems();
   }, []);
 
-  const renderCartItem = ({ item }) => (
-    <View style={styles.cartItem}>
-      <Image source={{ uri: item.image }} style={styles.cartItemImage} />
-      <View style={styles.cartItemDetails}>
-        <Text style={styles.cartItemTitle}>{item.title}</Text>
-        <Text style={styles.cartItemPrice}>${item.price}</Text>
+  const renderWishlistItem = ({ item }) => (
+    <View style={styles.wishlistItem}>
+      <Image source={{ uri: item.image }} style={styles.wishlistItemImage} />
+      <View style={styles.wishlistItemDetails}>
+        <Text style={styles.wishlistItemTitle}>{item.title}</Text>
+        <Text style={styles.wishlistItemPrice}>${item.price}</Text>
       </View>
       <Pressable
         style={styles.removeItemButton}
@@ -46,25 +46,28 @@ const CartScreen = () => {
 
   const removeItem = async (itemToRemove) => {
     try {
-      const updatedCartItems = cartItems.filter(
+      const updatedWishlistItems = wishlistItems.filter(
         (item) => item.id !== itemToRemove.id
       );
-      setCartItems(updatedCartItems);
-      await AsyncStorage.setItem("cart", JSON.stringify(updatedCartItems));
+      setWishlistItems(updatedWishlistItems);
+      await AsyncStorage.setItem(
+        "wishlist",
+        JSON.stringify(updatedWishlistItems)
+      );
     } catch (error) {
-      console.error("Failed to remove item from cart", error);
+      console.error("Failed to remove item from wishlist", error);
     }
   };
 
   return (
     <LinearGradient
-      colors={["white", "white", "#80deea"]}
+      colors={["#e0f7fa", "#e0f7fa", "#80deea"]}
       style={styles.container}
     >
       <Header />
       <FlatList
-        data={cartItems}
-        renderItem={renderCartItem}
+        data={wishlistItems}
+        renderItem={renderWishlistItem}
         keyExtractor={(item) => item.id.toString()}
         contentContainerStyle={styles.listContainer}
       />
@@ -81,7 +84,7 @@ const styles = StyleSheet.create({
   listContainer: {
     padding: 20,
   },
-  cartItem: {
+  wishlistItem: {
     flexDirection: "row",
     alignItems: "center",
     marginBottom: 20,
@@ -94,20 +97,20 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     elevation: 2,
   },
-  cartItemImage: {
+  wishlistItemImage: {
     width: 80,
     height: 80,
     resizeMode: "contain",
     marginRight: 20,
   },
-  cartItemDetails: {
+  wishlistItemDetails: {
     flex: 1,
   },
-  cartItemTitle: {
+  wishlistItemTitle: {
     fontSize: 18,
     fontWeight: "bold",
   },
-  cartItemPrice: {
+  wishlistItemPrice: {
     fontSize: 16,
     color: "green",
   },
@@ -122,4 +125,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CartScreen;
+export default WishlistScreen;
