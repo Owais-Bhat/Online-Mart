@@ -1,96 +1,117 @@
-import React from "react";
 import {
-  View,
+  ActivityIndicator,
+  Alert,
+  StyleSheet,
   Text,
   TextInput,
-  ImageBackground,
-  Image,
-  Pressable,
+  View,
 } from "react-native";
-import { Formik } from "formik";
-import * as Yup from "yup";
-import globalStyles from "../styles/globalStyles";
+import React, { useState } from "react";
+import { StatusBar } from "expo-status-bar";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+} from "firebase/auth";
+import app from "../firebaseConfig";
+import { useNavigation } from "@react-navigation/native";
+import { LinearGradient } from "expo-linear-gradient";
 
-// Validation schema for form
-const validationSchema = Yup.object().shape({
-  email: Yup.string()
-    .email("Invalid email address")
-    .required("Email is required"),
-  password: Yup.string()
-    .min(6, "Password must be at least 6 characters")
-    .required("Password is required"),
-});
+const LoginScreen = () => {
+  const [loading, setLoading] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigator = useNavigation();
 
-const LoginScreen = ({ navigation }) => {
+  async function registerAndLogin() {
+    setLoading(true);
+    try {
+      const auth = getAuth(app);
+
+      await createUserWithEmailAndPassword(auth, email, password);
+      const response = await signInWithEmailAndPassword(auth, email, password);
+
+      setLoading(false);
+      Alert.alert("Success", response.user.email);
+      navigator.navigate("Main");
+      return;
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+      Alert.alert("Error", error.message);
+    }
+  }
+
   return (
-    <View style={globalStyles.container}>
-      <ImageBackground
-        source={require("../assets/bg.png")}
-        resizeMode="contain"
-      >
-        <View style={globalStyles.view}>
-          <Image
-            source={require("../assets/logo.png")}
-            resizeMode="contain"
-            style={globalStyles.image}
-          ></Image>
-        </View>
-        <Formik
-          initialValues={{ email: "", password: "" }}
-          validationSchema={validationSchema}
-          onSubmit={(values, { resetForm }) => {
-            resetForm({ values: { email: "", password: "" } });
-            console.log(values);
-            navigation.navigate("Main");
-          }}
-        >
-          {({
-            handleChange,
-            handleBlur,
-            handleSubmit,
-            values,
-            errors,
-            touched,
-          }) => (
-            <>
-              <TextInput
-                style={globalStyles.input}
-                placeholder="Email"
-                onChangeText={handleChange("email")}
-                onBlur={handleBlur("email")}
-                value={values.email}
-              />
-              {touched.email && errors.email && (
-                <Text style={globalStyles.errorText}>{errors.email}</Text>
-              )}
-              <TextInput
-                style={globalStyles.input}
-                placeholder="Password"
-                secureTextEntry
-                onChangeText={handleChange("password")}
-                onBlur={handleBlur("password")}
-                value={values.password}
-              />
-              {touched.password && errors.password && (
-                <Text style={globalStyles.errorText}>{errors.password}</Text>
-              )}
-              <View style={globalStyles.view2}>
-                <Pressable
-                  onPress={handleSubmit}
-                  style={globalStyles.pressText}
-                >
-                  <Text>LogIn</Text>
-                </Pressable>
-                <Pressable style={globalStyles.pressText}>
-                  <Text>Forget</Text>
-                </Pressable>
-              </View>
-            </>
+    <LinearGradient
+      colors={["white", "white", "#80deea"]}
+      style={styles.container}
+    >
+      <StatusBar style="auto" />
+      <TextInput
+        style={[styles.input, { color: "white", textAlign: "center" }]}
+        placeholder="Email"
+        placeholderTextColor={"white"}
+        onChangeText={setEmail}
+      />
+      <TextInput
+        style={[
+          styles.input,
+          { marginTop: 20, color: "white", textAlign: "center", fontSize: 15 },
+        ]}
+        placeholder="Password"
+        placeholderTextColor={"white"}
+        onChangeText={setPassword}
+        secureTextEntry={true}
+      />
+      <View style={styles.View}>
+        <TouchableOpacity style={{ width: "100%" }} onPress={registerAndLogin}>
+          {loading ? (
+            <ActivityIndicator
+              size={"small"}
+              color={"white"}
+              animating={loading}
+            />
+          ) : (
+            <Text style={{ color: "white" }}> Login</Text>
           )}
-        </Formik>
-      </ImageBackground>
-    </View>
+        </TouchableOpacity>
+      </View>
+    </LinearGradient>
   );
 };
 
 export default LoginScreen;
+
+const styles = StyleSheet.create({
+  View: {
+    width: "80%",
+    height: 50,
+    marginBottom: 20,
+    justifyContent: "center",
+    alignItems: "center",
+    height: 40,
+    backgroundColor: "teal",
+    borderWidth: 2,
+    borderColor: "white",
+    borderRadius: 10,
+    marginTop: 20,
+    alignItems: "center",
+    justifyContent: "center",
+    alignSelf: "center",
+  },
+  input: {
+    width: "80%",
+    height: 40,
+    borderRadius: 10,
+    backgroundColor: "gray",
+    fontSize: 15,
+  },
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(255, 255, 255, 0.8)",
+  },
+});

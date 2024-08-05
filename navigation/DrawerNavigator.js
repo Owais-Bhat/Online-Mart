@@ -33,12 +33,12 @@ const CustomDrawerContent = (props) => {
       </View>
 
       {/* Login Button */}
-      <Pressable
+      {/* <Pressable
         style={styles.loginButton}
         onPress={() => navigation.navigate("Login")}
       >
         <Text style={styles.loginButtonText}>Login</Text>
-      </Pressable>
+      </Pressable> */}
     </View>
   );
 };
@@ -84,9 +84,9 @@ const DrawerNavigator = () => {
           </Layout>
         )}
       </Drawer.Screen>
-      <Drawer.Screen name="WishlistScreen">
+      {/* <Drawer.Screen name="WishlistScreen">
         {() => <WishlistScreen />}
-      </Drawer.Screen>
+      </Drawer.Screen> */}
 
       {/* <Drawer.Screen name="CartScreen">{() => <CartScreen />}</Drawer.Screen> */}
     </Drawer.Navigator>
