@@ -11,16 +11,18 @@ import {
 import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import app from "../firebaseConfig";
 import { useNavigation } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
 import Icon from "react-native-vector-icons/FontAwesome";
 
-const LoginScreen = () => {
+const RegisterScreen = () => {
   const [loading, setLoading] = useState(false);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const navigator = useNavigation();
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
@@ -28,13 +30,27 @@ const LoginScreen = () => {
     setIsPasswordVisible(!isPasswordVisible);
   };
 
-  async function login() {
+  async function register() {
+    if (password !== confirmPassword) {
+      Alert.alert("Error", "Passwords do not match");
+      return;
+    }
+
+    const passwordRegex = /^(?=.*[A-Z])(?=.*[!@#$&*]).{8,}$/;
+    if (!passwordRegex.test(password)) {
+      Alert.alert(
+        "Error",
+        "Password must contain at least one capital letter and one symbol"
+      );
+      return;
+    }
+
     setLoading(true);
     try {
       const auth = getAuth(app);
-      const response = await signInWithEmailAndPassword(auth, email, password);
+      await createUserWithEmailAndPassword(auth, email, password);
       setLoading(false);
-      Alert.alert("Success", response.user.email);
+      Alert.alert("Success", "User registered successfully");
       navigator.navigate("Main");
     } catch (error) {
       console.log(error);
@@ -49,10 +65,17 @@ const LoginScreen = () => {
       style={styles.container}
     >
       <StatusBar style="auto" />
+
       <TextInput
         style={[
           styles.input,
-          { color: "white", textAlign: "left", paddingLeft: 10 },
+          {
+            marginTop: 20,
+            color: "white",
+            textAlign: "left",
+            fontSize: 15,
+            padding: 10,
+          },
         ]}
         placeholder="Email"
         placeholderTextColor={"white"}
@@ -67,8 +90,7 @@ const LoginScreen = () => {
             textAlign: "center",
             fontSize: 15,
             flexDirection: "row",
-            justifyContent: "space-between",
-            paddingLeft: 10,
+            alignItems: "center",
           },
         ]}
       >
@@ -77,6 +99,7 @@ const LoginScreen = () => {
           placeholderTextColor={"white"}
           onChangeText={setPassword}
           secureTextEntry={!isPasswordVisible}
+          style={{ flex: 1, marginHorizontal: 1, padding: 10, color: "white" }}
         />
         <Pressable
           onPress={togglePasswordVisibility}
@@ -85,30 +108,62 @@ const LoginScreen = () => {
           <Icon
             name={isPasswordVisible ? "eye-slash" : "eye"}
             size={20}
-            color="black"
-            style={{ marginLeft: 5 }}
+            color="white"
+            style={{ marginRight: 5 }}
           />
         </Pressable>
       </View>
-      <View style={styles.buttonContainer}>
-        <Button title="Login" onPress={login} />
-        <Button
-          title="Forgot Password"
-          onPress={() => navigator.navigate("ForgotPassword")}
-        />
+      <TextInput
+        style={[
+          styles.input,
+          {
+            marginTop: 20,
+            color: "white",
+            textAlign: "left",
+            fontSize: 15,
+            padding: 10,
+          },
+        ]}
+        placeholder="Confirm Password"
+        placeholderTextColor={"white"}
+        onChangeText={setConfirmPassword}
+        secureTextEntry={!isPasswordVisible}
+      />
+      <View style={styles.View}>
+        <TouchableOpacity style={{ width: "100%" }} onPress={register}>
+          {loading ? (
+            <ActivityIndicator
+              size={"small"}
+              color={"white"}
+              animating={loading}
+            />
+          ) : (
+            <Text style={{ color: "white" }}>Register</Text>
+          )}
+        </TouchableOpacity>
       </View>
     </LinearGradient>
   );
 };
 
-export default LoginScreen;
+export default RegisterScreen;
 
 const styles = StyleSheet.create({
-  buttonContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+  View: {
     width: "80%",
+    height: 50,
+    marginBottom: 20,
+    justifyContent: "center",
+    alignItems: "center",
+    height: 40,
+    backgroundColor: "teal",
+    borderWidth: 2,
+    borderColor: "white",
+    borderRadius: 10,
     marginTop: 20,
+    alignItems: "center",
+    justifyContent: "center",
+    alignSelf: "center",
   },
   input: {
     width: "80%",

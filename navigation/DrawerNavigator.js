@@ -33,12 +33,12 @@ const CustomDrawerContent = (props) => {
       </View>
 
       {/* Login Button */}
-      {/* <Pressable
+      <Pressable
         style={styles.loginButton}
-        onPress={() => navigation.navigate("Login")}
+        onPress={() => navigation.navigate("Welcome")}
       >
         <Text style={styles.loginButtonText}>Login</Text>
-      </Pressable> */}
+      </Pressable>
     </View>
   );
 };

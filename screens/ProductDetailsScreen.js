@@ -12,6 +12,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import Icon from "react-native-vector-icons/FontAwesome";
 
 const ProductDetailsScreen = ({ route }) => {
   const { product } = route.params;
@@ -66,7 +67,15 @@ const ProductDetailsScreen = ({ route }) => {
             <Text style={styles.buttonText}>Add to Cart</Text>
           </Pressable>
         </View>
+        <Pressable
+          style={[styles.button, styles.cameraButton]}
+          onPress={() => navigation.navigate("CameraScreen")}
+        >
+          <Icon name="camera" size={24} color="white" />
+          <Text style={styles.buttonText}>Try On</Text>
+        </Pressable>
       </ScrollView>
+
       <Footer />
     </LinearGradient>
   );
@@ -80,6 +89,9 @@ const styles = StyleSheet.create({
   contentContainer: {
     padding: 20,
     alignItems: "center",
+  },
+  cameraButton: {
+    backgroundColor: "#00796b",
   },
   productImage: {
     width: "100%",
